@@ -10,7 +10,7 @@ from via3_tool import Via3Json
 from tqdm import tqdm
 from colorama import Fore
 
-input_imgs = [r'C:\dataset\rawframe\talk01\*']
+input_imgs = [r'C:\dataset\rawframe\bend01\*']
 output_dir = r'C:\dataset\anno'
 action_class = {'0': 'Standing',
                 '1': 'Walking',
@@ -18,8 +18,18 @@ action_class = {'0': 'Standing',
                 '3': 'Eating',
                 '4': 'Drinking',
                 '5': 'Smoking',
-                '6': 'Talking'}
-default_index = '6'
+                '6': 'Talking',
+                '7': 'Jumping',
+                '8': 'Squating',
+                '9': 'PlayingWithPhone',
+                '10': 'Kicking',
+                '11': 'Fighting',
+                '12': 'FallingDown',
+                '13': 'ClimbingUp',
+                '14': 'Carrying',
+                '15': 'CallingUp',
+                '16': 'BendingDown'}
+default_index = '16'
 
 def parse_args():
     parser = argparse.ArgumentParser(description='MMDetection video demo')

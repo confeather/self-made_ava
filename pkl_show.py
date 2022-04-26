@@ -7,6 +7,8 @@ import pickle
 import json
 import numpy
 
+#file_path = r"C:\dataset\anno_csv\ava_dense_proposals_val.FAIR.recall_93.9.pkl"
+file_path =r"C:\dataset\anno_csv\train_ann.pkl"
 
 
 class NumpyEncoder(json.JSONEncoder):
@@ -29,10 +31,6 @@ def convert_dict_to_json(file_path):
         data = pickle.load(fpkl,encoding='latin1')
         json.dump(data, fjson, ensure_ascii=False, sort_keys=True, indent=4,cls=NumpyEncoder)
 
-
-#file_path = r'D:\Downloads\ava_dense_proposals_val.FAIR.recall_93.9.pkl'
-file_path =r"C:\Users\63147\Desktop\self-made_ava_dataset_tool-master\train_ann.pkl"
-
 def main():
     # if sys.argv[1] and os.path.isfile(sys.argv[1]):
         #file_path = 'ava_dense_proposals_val.FAIR.recall_93.9.pkl'
@@ -49,6 +47,6 @@ def show():
     print(len(data))
 
 if __name__ == '__main__':
-    #main()
-    show()
+    main()
+    #show()
 

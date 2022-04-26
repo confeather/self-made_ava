@@ -6,7 +6,7 @@ import cv2
 import argparse
 from torch._C import Size
 #存放视频的地址
-videos_src_path = r'C:\dataset\custom_ava\talk01.avi'
+videos_src_path = r'C:\dataset\custom_ava\bend01.mp4'
 #videos_src_path = r'C:\dataset\custom_ava'
 
 #存放图片的地址
