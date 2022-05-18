@@ -8,7 +8,7 @@ import json
 import numpy
 
 #file_path = r"C:\dataset\anno_csv\ava_dense_proposals_val.FAIR.recall_93.9.pkl"
-file_path =r"C:\dataset\anno_csv\train_ann.pkl"
+file_path =r"E:\dataset\csv\train_ann.pkl"
 
 
 class NumpyEncoder(json.JSONEncoder):
@@ -47,6 +47,6 @@ def show():
     print(len(data))
 
 if __name__ == '__main__':
-    main()
-    #show()
+    #main()
+    show()
 

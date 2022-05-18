@@ -109,9 +109,9 @@ class AVADataset(BaseDataset):
                  test_mode=False,
                  modality='RGB',
                  num_max_proposals=1000,
-                 timestamp_start=902,###900
-                 timestamp_end=1022,###1800 规定的帧长120+900
-                 fps=1): ###30
+                 timestamp_start=901,###900=902-2
+                 timestamp_end=903,###1800=1798+2
+                 fps=30): ###30
         # since it inherits from `BaseDataset`, some arguments
         # should be assigned before performing `load_annotations()`
         self._FPS = fps  # Keep this as standard

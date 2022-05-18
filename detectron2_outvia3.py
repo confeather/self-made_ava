@@ -10,26 +10,28 @@ from via3_tool import Via3Json
 from tqdm import tqdm
 from colorama import Fore
 
-input_imgs = [r'C:\dataset\rawframe\bend01\*']
-output_dir = r'C:\dataset\anno'
+input_imgs = [r'E:\dataset\videos_frame\*\*']
+output_dir = r'E:\dataset\videos_ann_prop'
 action_class = {'0': 'Standing',
                 '1': 'Walking',
                 '2': 'Running',
-                '3': 'Eating',
-                '4': 'Drinking',
-                '5': 'Smoking',
-                '6': 'Talking',
-                '7': 'Jumping',
-                '8': 'Squating',
-                '9': 'PlayingWithPhone',
-                '10': 'Kicking',
-                '11': 'Fighting',
-                '12': 'FallingDown',
+                '3': 'BendingDown',
+                '4': 'FallingDown',
+                '5': 'Jumping',
+                '6': 'Squating',
+                '7': 'Sitting',
+                '8': 'Lying',
+                '9': 'Talking',
+                '10': 'Fighting',
+                '11': 'PlayingWithPhone',
+                '12': 'Kicking',
                 '13': 'ClimbingUp',
                 '14': 'Carrying',
                 '15': 'CallingUp',
-                '16': 'BendingDown'}
-default_index = '16'
+                '16': 'Eating',
+                '17': 'Drinking',
+                '18': 'Smoking'}
+default_index = '5'
 
 def parse_args():
     parser = argparse.ArgumentParser(description='MMDetection video demo')
@@ -56,7 +58,7 @@ def parse_args():
     parser.add_argument(
         '--device', default='cuda:0', help='Device used for inference')
     parser.add_argument(
-        '--score-thr', type=float, default=0.7, help='Bbox score threshold')
+        '--score-thr', type=float, default=0.8, help='Bbox score threshold')
     parser.add_argument('--out', type=str, help='Output video file')
     parser.add_argument('--show',
                         default=True,
@@ -112,7 +114,9 @@ def main():
         # file_path ./Datasets/Interaction/images/train/2/001.jpg
         # 加载一个个的图片
         extension = os.path.splitext(file_path)[-1]
-        if extension in ['.png', '.jpg', '.bmp', 'tif', 'gif']:
+        if extension in ['.png', '.jpg', '.bmp', 'tif', 'gif'] \
+                and (int(os.path.basename(file_path).split('_')[1][:5]) == 31
+                     or int(os.path.basename(file_path).split('_')[1][:5]) == 61):
             file_dir, file_name = os.path.split(file_path)
             results = process_image(model, file_path, args.output)
             # print(results)
@@ -126,7 +130,7 @@ def main():
             # 这里就是将图片挨个丢入检测网络模型中，然后返回人的坐标值
 
         else:
-            print('不能处理 {} 格式的文件， {}'.format(extension, file_path))
+            #print('不能处理 {} 格式的文件， {}'.format(extension, file_path))
             continue
     for images_dir in images_results_dict:
         print("images_dir", images_dir)
@@ -146,19 +150,28 @@ def main():
 
         via3.dumpConfigs()
 
-        attributes_dict = {'1': dict(aname='person', type=4, options=action_class,
+        attributes_dict = {'1': dict(aname='id',type=4,options={'0': '0',
+                                                                '1': '1',
+                                                                '2': '2',
+                                                                '3': '3',
+                                                                '4': '4',
+                                                                '5': '5',
+                                                                '6': '6',
+                                                                '7': '7',
+                                                                '8': '8',
+                                                                '9': '9',
+                                                                '10': '10',
+                                                                '11': '11'},
                                      default_option_id='0',
                                      anchor_id='FILE1_Z0_XY1'),
                            '2': dict(aname='modify', type=4, options={'0': 'False',
                                                                       '1': 'Ture'},
                                      default_option_id='0',
                                      anchor_id='FILE1_Z0_XY0'),
-                           '3': dict(aname='id',type=4,options={'0': '0',
-                                                                '1': '1',
-                                                                '2': '2',
-                                                                '3': '3'},
+                           '3': dict(aname='person', type=2, options=action_class,
                                      default_option_id='0',
-                                     anchor_id='FILE1_Z0_XY1')}
+                                     anchor_id='FILE1_Z0_XY1')
+                           }
 
         via3.dumpAttributes(attributes_dict)
 
@@ -168,7 +181,7 @@ def main():
             for vid, result in enumerate(results, 1):
                 metadata_dict = dict(vid=str(image_id),
                                      xy=[2, float(result[0]), float(result[1]), float(result[2]), float(result[3])],
-                                     av={'1': args.default_action}, score=[round(float(result[4]), 6)])
+                                     av={'1': '0', '3': args.default_action}, score=[round(float(result[4]), 6)])
                 # xy defines spatial location (e.g. bounding box)
                 # av defines the value of each attribute for this (z, xy) combination
                 #    the value for attribute-id="1" is one of its option with id "1" (i.e. Activity = Break Egg)
